@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation"; 
@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import { Suspense } from "react";
 
 // CardData型の定義
 type CardData = {
@@ -124,7 +125,7 @@ function Page() {
 
   const handleNewCommentSubmit = () => {
     if (newComment.trim()) {
-      setComments([
+      setComments([ 
         ...comments,
         {
           id: comments.length + 1,
@@ -174,12 +175,14 @@ function Page() {
             <p>投稿日: {cards?.date}</p>
           </div>
 
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{
-              __html: previewContent, // サニタイズ済みのHTMLを設定
-            }}
-          />
+          <Suspense fallback={<div>Loading content...</div>}>
+            <div
+              className="prose"
+              dangerouslySetInnerHTML={{
+                __html: previewContent, // サニタイズ済みのHTMLを設定
+              }}
+            />
+          </Suspense>
         </div>
 
         {/* コメントカード */}
