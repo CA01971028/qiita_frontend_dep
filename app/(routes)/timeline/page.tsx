@@ -21,7 +21,7 @@ export default function Timeline() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const path: string = "http://localhost:5000/order/time";
+    const path: string = "https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/order/time";
     
     const fetchData = async () => {
       try {
