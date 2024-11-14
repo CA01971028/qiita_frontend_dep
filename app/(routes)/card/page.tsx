@@ -98,14 +98,25 @@ function Page() {
 
   // markdown処理
   useEffect(() => {
-    if (cards?.description) {
-      const htmlContent = marked(cards.description);
-      const sanitizedContent = DOMPurify.sanitize(htmlContent);
-      setPreviewContent(sanitizedContent);
-    } else {
-      setPreviewContent(''); // descriptionが無い場合は空文字を設定
-    }
+    const processMarkdown = async () => {
+      if (cards?.description) {
+        try {
+          // markedがPromiseを返す場合に備えてawaitを使って解決
+          const htmlContent = await marked(cards.description); // markedがPromiseを返す場合、awaitで待機
+          const sanitizedContent = DOMPurify.sanitize(htmlContent); // サニタイズ処理
+          setPreviewContent(sanitizedContent); // サニタイズ後のHTMLをセット
+        } catch (error) {
+          console.error("Markdownの処理中にエラーが発生しました:", error);
+          setPreviewContent(''); // エラーが発生した場合は空文字をセット
+        }
+      } else {
+        setPreviewContent(''); // descriptionがない場合は空文字を設定
+      }
+    };
+  
+    processMarkdown(); // 非同期処理を実行
   }, [cards?.description]);
+  
 
   const handleNewCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewComment(e.target.value);
