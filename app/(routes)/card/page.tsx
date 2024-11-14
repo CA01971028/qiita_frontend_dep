@@ -7,6 +7,7 @@ import DOMPurify from 'dompurify';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 
+// CardData型の定義
 type CardData = {
   id: number;
   title: string;
@@ -18,12 +19,20 @@ type CardData = {
   user: string;
 };
 
+// コメント用の型を定義
+type Comment = {
+  id: number;
+  userId: string;
+  text: string;
+  timestamp: string;
+};
+
 function Page() {
   const searchParams = useSearchParams(); // URLパラメータを取得
-  const [cards, setCards] = useState<CardData>();
+  const [cards, setCards] = useState<CardData | null>(null); // 初期値をnullに変更
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [comments, setComments] = useState([
+  const [comments, setComments] = useState<Comment[]>([ // コメントの型を指定
     {
       id: 1,
       userId: "@user1",
@@ -44,14 +53,13 @@ function Page() {
   // クエリパラメータからidを取得
   const id = searchParams.get("id");
 
-  
   useEffect(() => {
     if (!id) {
       setError("IDが指定されていません");
       setLoading(false);
       return;
     }
-    
+
     const path: string = `http://localhost:5000/card/detail?id=${id}`;
     const fetchData = async () => {
       try {
@@ -77,11 +85,9 @@ function Page() {
         };
 
         setCards(formattedData);
-
-        
       } catch (error) {
         setError("エラー");
-        console.log(error)
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -91,16 +97,17 @@ function Page() {
   }, [id]);
 
   // markdown処理
-  useEffect(() =>{
-    if(cards?.description)
-    {
-      const htmlContent = marked(cards?.description);
+  useEffect(() => {
+    if (cards?.description) {
+      const htmlContent = marked(cards.description);
       const sanitizedContent = DOMPurify.sanitize(htmlContent);
       setPreviewContent(sanitizedContent);
+    } else {
+      setPreviewContent(''); // descriptionが無い場合は空文字を設定
     }
-  },[cards?.description])
+  }, [cards?.description]);
 
-  const handleNewCommentChange = (e) => {
+  const handleNewCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewComment(e.target.value);
   };
 
@@ -126,7 +133,7 @@ function Page() {
       </div>
     );
   if (error) return <div className="text-5xl text-center">このカードは削除されました</div>;
-  
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -145,11 +152,11 @@ function Page() {
 
           {/* タグ */}
           <div className="flex flex-wrap space-x-2 mb-4">
-            {cards?.tags.map((data,index)=>(
-                <span key={index} className="bg-blue-200 text-blue-700 text-lg font-semibold px-2 py-1 rounded-full">
-              {data}
-            </span>
-              ))}
+            {cards?.tags.map((data, index) => (
+              <span key={index} className="bg-blue-200 text-blue-700 text-lg font-semibold px-2 py-1 rounded-full">
+                {data}
+              </span>
+            ))}
           </div>
 
           <div className="flex justify-between text-gray-500 text-sm mb-4">
@@ -157,11 +164,11 @@ function Page() {
           </div>
 
           <div
-              className='prose'
-              dangerouslySetInnerHTML={{
-                __html: previewContent, // サニタイズ済みのHTMLを設定
-              }}
-            />
+            className="prose"
+            dangerouslySetInnerHTML={{
+              __html: previewContent, // サニタイズ済みのHTMLを設定
+            }}
+          />
         </div>
 
         {/* コメントカード */}
@@ -171,12 +178,12 @@ function Page() {
           {/* コメント一覧 */}
           <div className="space-y-4 mb-4">
             {comments.length > 0 ? (
-              comments.map((comment,index) => (
+              comments.map((comment, index) => (
                 <div key={index} className="bg-gray-50 p-4 rounded shadow">
                   {/* アイコン、ID、投稿日時を横並びに配置 */}
                   <div className="flex items-center space-x-4 mb-2">
                     <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-                    <p className="font-bold text-gray-700">{comment.id}</p>
+                    <p className="font-bold text-gray-700">{comment.userId}</p>
                     <p className="text-xs text-gray-500">{comment.timestamp}</p>
                   </div>
                   <p className="text-gray-700">{comment.text}</p>
