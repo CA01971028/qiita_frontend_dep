@@ -2,7 +2,7 @@
 
 import { FaBell, FaPlus, FaUser } from "react-icons/fa";
 import { MdOutlineSearch } from "react-icons/md";
-import { useState, useEffect, useRef } from "react";
+import { useState,  useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import UseFetchName from '../_components/hooks/UseFetchName';
