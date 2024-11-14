@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation"; 
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { Suspense } from "react";
 
 // CardData型の定義
 type CardData = {
@@ -30,10 +29,10 @@ type Comment = {
 
 function Page() {
   const searchParams = useSearchParams(); // URLパラメータを取得
-  const [cards, setCards] = useState<CardData | null>(null); // 初期値をnullに変更
+  const [cards, setCards] = useState<CardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [comments, setComments] = useState<Comment[]>([ // コメントの型を指定
+  const [comments, setComments] = useState<Comment[]>([
     {
       id: 1,
       userId: "@user1",
@@ -78,11 +77,11 @@ function Page() {
           id: data[0],
           title: data[1],
           description: data[2],
-          tags: JSON.parse(data[3]),  // タグを文字列から配列に変換
+          tags: JSON.parse(data[3]),
           score: data[4],
           date: data[5],
           categoryId: data[6],
-          user: data[7]
+          user: data[7],
         };
 
         setCards(formattedData);
@@ -102,22 +101,20 @@ function Page() {
     const processMarkdown = async () => {
       if (cards?.description) {
         try {
-          // markedがPromiseを返す場合に備えてawaitを使って解決
-          const htmlContent = await marked(cards.description); // markedがPromiseを返す場合、awaitで待機
-          const sanitizedContent = DOMPurify.sanitize(htmlContent); // サニタイズ処理
-          setPreviewContent(sanitizedContent); // サニタイズ後のHTMLをセット
+          const htmlContent = await marked(cards.description);
+          const sanitizedContent = DOMPurify.sanitize(htmlContent);
+          setPreviewContent(sanitizedContent);
         } catch (error) {
           console.error("Markdownの処理中にエラーが発生しました:", error);
-          setPreviewContent(''); // エラーが発生した場合は空文字をセット
+          setPreviewContent('');
         }
       } else {
-        setPreviewContent(''); // descriptionがない場合は空文字を設定
+        setPreviewContent('');
       }
     };
-  
-    processMarkdown(); // 非同期処理を実行
+
+    processMarkdown();
   }, [cards?.description]);
-  
 
   const handleNewCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewComment(e.target.value);
@@ -125,7 +122,7 @@ function Page() {
 
   const handleNewCommentSubmit = () => {
     if (newComment.trim()) {
-      setComments([ 
+      setComments([
         ...comments,
         {
           id: comments.length + 1,
@@ -149,7 +146,6 @@ function Page() {
   return (
     <div className="min-h-screen">
       <Header />
-
       <div className="flex flex-col items-center relative">
         {/* 記事カード */}
         <div className="max-w-4xl w-full items-center bg-white shadow-md rounded-lg overflow-hidden mt-8 border border-black/10 p-6">
@@ -175,7 +171,7 @@ function Page() {
             <p>投稿日: {cards?.date}</p>
           </div>
 
-          <Suspense fallback={<div>Loading content...</div>}>
+          <Suspense fallback={<div>Loading...</div>}>
             <div
               className="prose"
               dangerouslySetInnerHTML={{
@@ -226,7 +222,6 @@ function Page() {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
