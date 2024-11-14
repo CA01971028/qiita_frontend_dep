@@ -19,8 +19,8 @@ const Header = () => {
 
   // メニュー外クリックでメニューを閉じる処理
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsMenuOpen(false);
       }
     };
@@ -33,7 +33,7 @@ const Header = () => {
 
   // 通知パネル外クリックで通知を閉じる処理
   useEffect(() => {
-    const handleClickOutsideNotification = (e) => {
+    const handleClickOutsideNotification = (e: MouseEvent) => {
       if (isNotificationOpen && notificationRef.current && !notificationRef.current.contains(e.target)) {
         setIsNotificationOpen(false);
       }
