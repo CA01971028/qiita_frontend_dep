@@ -8,7 +8,7 @@ const UseFetchName = () => {
     useEffect(() => {
         const fetchName = async () => {
             try {
-                const response = await fetch('http://localhost:5000/confirmation_name', {
+                const response = await fetch('https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/confirmation_name', {
                     method: 'GET',
                     credentials: 'include',
                 });

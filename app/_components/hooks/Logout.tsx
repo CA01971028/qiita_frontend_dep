@@ -1,7 +1,7 @@
 const Logout = () => {
   const logout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/logout', {
+      const response = await fetch('https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/logout', {
         method: 'POST',
         credentials: 'include', 
       });
