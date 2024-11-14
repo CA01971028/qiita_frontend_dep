@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation"; 
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import Link from "next/link";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 
@@ -100,7 +99,7 @@ function Page() {
     }
   },[cards?.description])
 
-  const handleNewCommentChange = (e: any) => {
+  const handleNewCommentChange = (e) => {
     setNewComment(e.target.value);
   };
 

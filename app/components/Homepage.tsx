@@ -34,7 +34,7 @@ const HomePage = () => {
         const data = await res.json();
 
         // データを整形
-        const formattedData = data.map((item: any) => ({
+        const formattedData = data.map((item) => ({
           id: item[0],
           title: item[1],
           description: item[2],
@@ -69,7 +69,7 @@ const HomePage = () => {
         const data = await res.json();
 
         // データを整形
-        const formattedData = data.map((item: any) => ({
+        const formattedData = data.map((item) => ({
           id: item[0],
           title: item[1],
           description: item[2],
