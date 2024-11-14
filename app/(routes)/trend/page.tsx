@@ -32,15 +32,15 @@ export default function Trend() {
         const data = await res.json();
 
         // データを整形
-        const formattedData = data.map((item) => ({
-          id: item[0],
+        const formattedData: CardData[] = data.map((item: string[]) => ({
+          id: Number(item[0]),           // idをnumberに変換
           title: item[1],
           description: item[2],
-          tags: JSON.parse(item[3]), 
-          score: item[4],
+          tags: JSON.parse(item[3]),     // JSON文字列を配列に変換
+          score: Number(item[4]),        // scoreをnumberに変換
           date: item[5],
-          categoryId: item[6],
-          user:item[7]
+          categoryId: Number(item[6]),   // categoryIdをnumberに変換
+          user: item[7]
         }));
 
         setCards(formattedData);

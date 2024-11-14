@@ -34,7 +34,7 @@ const HomePage = () => {
         const data = await res.json();
 
         // データを整形
-        const formattedData = data.map((item) => ({
+        const formattedData:CardData[] = data.map((item:string[]) => ({
           id: item[0],
           title: item[1],
           description: item[2],
@@ -70,7 +70,7 @@ const HomePage = () => {
         const data = await res.json();
 
         // データを整形
-        const formattedData = data.map((item) => ({
+        const formattedData:CardData[] = data.map((item:string[]) => ({
           id: item[0],
           title: item[1],
           description: item[2],
