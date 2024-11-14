@@ -18,32 +18,33 @@ const Header = () => {
   const menuRef = useRef(null); // メニューパネルの参照
 
   // メニュー外クリックでメニューを閉じる処理
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     // menuRef.currentがnullでないことを確認し、HTMLDivElement型であることを明示的に指定
+  //     if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
+  //       setIsMenuOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [isMenuOpen]);
 
   // 通知パネル外クリックで通知を閉じる処理
-  useEffect(() => {
-    const handleClickOutsideNotification = (e: MouseEvent) => {
-      if (isNotificationOpen && notificationRef.current && !notificationRef.current.contains(e.target)) {
-        setIsNotificationOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutsideNotification = (e: MouseEvent) => {
+  //     if (isNotificationOpen && notificationRef.current && !notificationRef.current.contains(e.target)) {
+  //       setIsNotificationOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutsideNotification);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideNotification);
-    };
-  }, [isNotificationOpen]);
+  //   document.addEventListener("mousedown", handleClickOutsideNotification);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutsideNotification);
+  //   };
+  // }, [isNotificationOpen]);
 
   const toggleNotification = () => {
     setIsNotificationOpen(!isNotificationOpen);
