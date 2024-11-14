@@ -9,41 +9,46 @@ function Page() {
   const [previewContent, setPreviewContent] = useState('');
 
   // テスト用のMarkdownデータ
-  const [testMarkdown,setTestMarkdown] = useState('')
+  const [testMarkdown, setTestMarkdown] = useState('');
 
   // Markdownを処理しサニタイズする
   useEffect(() => {
-    if(testMarkdown)
-    {
-        const htmlContent = marked(testMarkdown);
+    const processMarkdown = async () => {
+      if (testMarkdown) {
+        // markedを非同期で処理
+        const htmlContent = await marked(testMarkdown);
         const sanitizedContent = DOMPurify.sanitize(htmlContent);
         setPreviewContent(sanitizedContent);
-    }
-    },[testMarkdown])
-    
+      }
+    };
 
-  useEffect(() =>{
+    processMarkdown();
+  }, [testMarkdown]);
+
+  // データを取得してtestMarkdownに設定
+  useEffect(() => {
     const path: string = 'http://localhost:5000/mk';
-    const fetchData = async () =>{
-        try {
-            const res = await fetch(path,{
-                method:"GET",
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-            });
-            if(!res.ok){
-                throw new Error('ネットワークの応答が正常ではありません');
-            }
-            const data = await res.json();
-            console.log(data)
-            setTestMarkdown(data[0])
-        }catch (error){
-            console.log(error)
+    const fetchData = async () => {
+      try {
+        const res = await fetch(path, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!res.ok) {
+          throw new Error('ネットワークの応答が正常ではありません');
         }
-    }
-    fetchData()
-  },[])
+        const data = await res.json();
+        console.log(data);
+        setTestMarkdown(data[0]); // 取得したMarkdownデータを設定
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
       <header className='border-b border-gray-300'>
