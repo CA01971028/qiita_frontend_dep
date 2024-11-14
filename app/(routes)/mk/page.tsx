@@ -39,7 +39,7 @@ function page() {
             console.log(data)
             setTestMarkdown(data[0])
         }catch (error){
-            console.log('apiから適切なデータが受け取れません')
+            console.log(error)
         }
     }
     fetchData()

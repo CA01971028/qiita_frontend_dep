@@ -48,6 +48,7 @@ const HomePage = () => {
         setCards(formattedData);
       } catch (err) {
         setError('err.message');
+        console.log(err)
       } finally {
         setLoading(false);
       }
@@ -83,6 +84,7 @@ const HomePage = () => {
         setTime(formattedData);
       } catch (err) {
         setError('err.message');
+        console.log(err)
       } finally {
         setLoading(false);
       }
@@ -105,6 +107,7 @@ const HomePage = () => {
         setRank(data)
       }catch(err){
         console.log("サーバーサイドでエラーが発生しています")
+        console.log(err)
       }
     }
     fetchData()

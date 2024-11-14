@@ -32,6 +32,7 @@ function Mypage() {
         }
       } catch (error) {
         console.log("エラーが発生");
+        console.log(error)
       }
     };
     fetchCnt();

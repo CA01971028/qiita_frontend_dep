@@ -26,6 +26,7 @@ const UseFetchName = () => {
                 }
             } catch (error) { 
                 setError('処理がうまくいきませんでした'); 
+                console.log(error)
             }
             };
 

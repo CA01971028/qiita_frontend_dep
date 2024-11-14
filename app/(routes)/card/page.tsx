@@ -79,8 +79,9 @@ function Page() {
         setCards(formattedData);
 
         
-      } catch (err) {
+      } catch (error) {
         setError("エラー");
+        console.log(error)
       } finally {
         setLoading(false);
       }
