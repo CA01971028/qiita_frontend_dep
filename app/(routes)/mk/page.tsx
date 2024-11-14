@@ -5,7 +5,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import Link from "next/link";
 
-function page() {
+function Page() {
   const [previewContent, setPreviewContent] = useState('');
 
   // テスト用のMarkdownデータ
@@ -82,4 +82,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

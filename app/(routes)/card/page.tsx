@@ -88,7 +88,7 @@ function Page() {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   // markdown処理
   useEffect(() =>{
