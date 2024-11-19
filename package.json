@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run next\" \"npm run json-server\"",
+    "dev": "npm run next",
     "next": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "json-server": "json-server --watch db.json -p 3001"
+    "lint": "next lint"
   },
   "dependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",

@@ -36,7 +36,7 @@ function Post() {
   
     try {
       // POSTリクエストを送信
-      const response = await fetch('http://localhost:5000/card/add', {
+      const response = await fetch('https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/card/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

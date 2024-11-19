@@ -61,7 +61,7 @@ const Card_detail = () => {
       return;
     }
 
-    const path: string = `http://localhost:5000/card/detail?id=${id}`;
+    const path: string = `https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/card/detail?id=${id}`;
     const fetchData = async () => {
       try {
         const res = await fetch(path, {

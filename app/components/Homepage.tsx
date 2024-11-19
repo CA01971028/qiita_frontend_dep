@@ -22,7 +22,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    const path: string = 'http://localhost:5000/order/trend';
+    const path: string = 'https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/order/trend';
     const fetchData = async () => {
       try {
         const res = await fetch(path, {
@@ -58,7 +58,7 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const path: string = 'http://localhost:5000/order/time';
+    const path: string = 'https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/order/time';
     const fetchData = async () => {
       try {
         const res = await fetch(path, {
@@ -94,7 +94,7 @@ const HomePage = () => {
   }, []);
 
   useEffect(() =>{
-    const path:string = 'http://localhost:5000/user_ranking';
+    const path:string = 'https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/user_ranking';
     const fetchData = async () =>{
       try{
         const res = await fetch(path,{
