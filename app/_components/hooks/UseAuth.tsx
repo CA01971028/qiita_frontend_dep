@@ -7,7 +7,7 @@ const useAuth = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/special', {
+        const response = await fetch('http://127.0.0.1:5000/special', {
           method: 'GET',
           credentials: 'include',
         });
