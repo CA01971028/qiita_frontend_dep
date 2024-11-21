@@ -75,14 +75,14 @@ const Card_detail = () => {
         }
         const data = await res.json();
         const formattedData: CardData = {
-          id: data[0],
-          title: data[1],
-          description: data[2],
-          tags: JSON.parse(data[3]),  // タグを文字列から配列に変換
-          score: data[4],
-          date: data[5],
-          categoryId: data[6],
-          user: data[7]
+          id: data['cardid'],
+          title: data['name'],
+          description: data['detail'],
+          tags: JSON.parse(data['tag']),  // タグを文字列から配列に変換
+          score: data['heart'],
+          date: data['time'],
+          categoryId: data['userid'],
+          user: data['user']
         };
 
         setCards(formattedData);

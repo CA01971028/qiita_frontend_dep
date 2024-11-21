@@ -149,7 +149,7 @@ const HomePage = () => {
         <ul className="mt-2">
           {rank.map((data,index)=>(
             <li key={index} className="flex items-center hover:underline">
-            <FaUser className="mr-2 text-gray-500" /> {data[0]}
+            <FaUser className="mr-2 text-gray-500" /> {data["user"]}
             {/* <p className="text-2xl inline-block px-28 w-full text-right">{data[1]}</p> */}
 
           </li>
