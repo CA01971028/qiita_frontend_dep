@@ -138,7 +138,7 @@ const HomePage = () => {
               <FaJs className="mr-2 text-yellow-500" /> JavaScript
             </li>
           </Link>
-          <Link href="/tags/webdevelopment">
+          <Link href="/">
             <li className="flex items-center hover:underline">
               <FaGlobe className="mr-2 text-green-500" /> WebDev
             </li>
