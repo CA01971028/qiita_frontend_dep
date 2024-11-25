@@ -20,9 +20,7 @@ const Logout = () => {
     }
   };
 
-
     logout();
-
 };
 
 export default Logout;
