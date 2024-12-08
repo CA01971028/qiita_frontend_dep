@@ -84,28 +84,34 @@ const FixPage = () => {
   }, [data]);
 
   const FixCard = async () => {
+    // dataがnullの場合は処理をしない
+    if (!data) {
+      alert("データが読み込まれていません。");
+      return;
+    }
+  
     const postData = {
       name: title,
       detail: content,
       tag: tags.split(" "),
-      cardid: data.id
+      cardid: data.id,  
     };
-    try{
-      const res = await fetch('http://localhost:5000/Fixcard',{
-        method:'PUT',
-        headers:{
-          "Content-Type":"application/json"
+  
+    try {
+      const res = await fetch('http://localhost:5000/Fixcard', {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
       });
-      if(res.ok){
-        alert('修正完了')
+      if (res.ok) {
+        alert('修正完了');
       }
-    } catch{
-      alert("エラーが発生しました")
+    } catch {
+      alert("エラーが発生しました");
     }
-
-  }
+  };
 
   return (
     <div>
