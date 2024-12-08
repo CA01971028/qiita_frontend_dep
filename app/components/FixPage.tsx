@@ -93,11 +93,10 @@ const FixPage = () => {
         },
         body: JSON.stringify(postData)
       });
-      const result = await res.json();
       if(res.ok){
         alert('修正完了')
       }
-    } catch(error) {
+    } catch{
       alert("エラーが発生しました")
     }
 

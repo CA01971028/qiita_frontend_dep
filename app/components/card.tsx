@@ -2,6 +2,8 @@
 
 import {useState } from "react";
 import { handleClick } from "../utils/handleclick";
+import Image from "next/image"
+
 type card ={
   id: number,
   title: string,
@@ -22,9 +24,9 @@ export default function Card(props:card) {
       {/*カードの大枠を定義 */}
         <div className="h-72 sm:w-96 sm:h-auto md:w-96 my-2 mx-auto rounded-md border border-gray-400 bg-teal-100">
           <div className="inline-block align-top p-2">
-              <img className="w-16 h-16 rounded-full" src="共食いタコ.png" alt="Avatar" />
+              <Image src="/共食いタコ.png" width={50} height={50} alt="Avatar" className="object-cover rounded-full"/>
           </div>
-          <div className="inline-block align-top p-2 items-center">
+          <div className="inline-block align-top p-2 items-center pt-4">
               <p className="text-gray-900 leading-none">{user}</p>
               <p className="text-gray-600">{date}</p>
           </div>

@@ -101,7 +101,7 @@ const Card_detail = () => {
     };
 
     fetchData();
-  }, []);
+  }, [cardid]);
 
   useEffect(() => {
     if (id && cardid) {

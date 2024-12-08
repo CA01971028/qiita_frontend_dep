@@ -80,7 +80,7 @@ function Mypage() {
           }));
 
           setCards(formattedData);
-        } catch (err) {
+        } catch{
           setError('err.message');
         } finally {
           setLoading(false);
