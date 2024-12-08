@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import UseFetchName from "@/app/_components/hooks/UseFetchName";
 
 // CardData型の定義
 type CardData = {
@@ -27,12 +28,17 @@ type Comment = {
   timestamp: string;
 };
 
+type LikeGet = {
+  success:boolean;
+}
 
 const Card_detail = () => {
-    const searchParams = useSearchParams(); // URLパラメータを取得
+  const searchParams = useSearchParams(); // URLパラメータを取得
   const [cards, setCards] = useState<CardData | null>(null); // 初期値をnullに変更
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);//ローディングをするかどうか
   const [error, setError] = useState<string | null>(null);
+  const [checkHeart, setCheckHeart] = useState<boolean>(false);//ハートが押されているかどうか
+  const {id} = UseFetchName();
   const [comments, setComments] = useState<Comment[]>([ // コメントの型を指定
     {
       id: 1,
@@ -52,16 +58,16 @@ const Card_detail = () => {
   const [previewContent, setPreviewContent] = useState('');
 
   // クエリパラメータからidを取得
-  const id = searchParams.get("id");
+  const cardid = searchParams.get("id");
 
   useEffect(() => {
-    if (!id) {
+    if (!cardid) {
       setError("IDが指定されていません");
       setLoading(false);
       return;
     }
 
-    const path: string = `https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/card/detail?id=${id}`;
+    const path: string = `https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/card/detail?id=${cardid}`;
     const fetchData = async () => {
       try {
         const res = await fetch(path, {
@@ -95,7 +101,28 @@ const Card_detail = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, []);
+
+  useEffect(() => {
+    if (id && cardid) {
+      const likeget = async () => {
+        try {
+          const res = await fetch(`http://localhost:5000/like?userid=${id}&cardid=${cardid}`, {
+            method: "GET",
+          });
+          if (!res.ok) {
+            throw new Error("ネットワークの応答が正常ではありません");
+          }
+          const data: LikeGet = await res.json();
+          setCheckHeart(data.success);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+  
+      likeget();
+    }
+  }, [id, cardid]); // 両方が変更されたら実行
 
   // markdown処理
   useEffect(() => {
@@ -114,7 +141,6 @@ const Card_detail = () => {
       setPreviewContent(''); // descriptionがない場合は空文字を設定
     }
   };
-
   processMarkdown(); // 非同期処理を実行
 }, [cards?.description]);
 
@@ -138,6 +164,37 @@ const Card_detail = () => {
     }
   };
 
+  //ハートのクリックイベント
+  const heartClick = async () => {
+    try {
+      if (checkHeart) {
+        await fetch(`http://localhost:5000/like`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userid: id, cardid: cardid }),
+        });
+        setCheckHeart(false);
+      } else {
+        await fetch(`http://localhost:5000/like?userid=${id}&cardid=${cardid}`, {
+          method: "DELETE",
+        });
+        setCheckHeart(true);
+      }
+  
+      // 再度データを取得
+      const res = await fetch(`http://localhost:5000/card/detail?id=${cardid}`);
+      const updatedCard = await res.json();
+      const updatedScore = updatedCard['heart'];
+      setCards((prevCards) => (prevCards ? { ...prevCards, score: updatedScore } : prevCards));
+    } catch (err) {
+      console.error("いいねの更新に失敗しました", err);
+    }
+  };
+
+
+
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -149,8 +206,11 @@ const Card_detail = () => {
   return (
     <div className="min-h-screen">
       <Header />
-
-      <div className="flex flex-col items-center relative">
+      <div className="flex flex-row">
+        <div onClick={heartClick} className={`text-6xl md:text-6xl md:transform md:translate-x-24 md:translate-y-14 ${checkHeart ? 'text-red-500 hover:text-red-800' : 'text-gray-500 hover:text-gray-300'} h-14 w-14`}>❤</div>
+        <div className="text-4xl mt-2 md:transform md:translate-x-24 md:translate-y-16 md:text-3xl">{cards?.score}</div>
+      </div>
+      <div className="flex flex-col items-center mt-[-30px] md:mt-[-70px]">
         {/* 記事カード */}
         <div className="max-w-4xl w-full items-center bg-white shadow-md rounded-lg overflow-hidden mt-8 border border-black/10 p-6">
           <div className="flex items-center mb-4">

@@ -40,7 +40,7 @@ export default function Timeline() {
           id: item[0],
           title: item[1],
           description: item[2],
-          tags: JSON.parse(item[3]),  // 文字列の JSON をパース
+          tags: JSON.parse(item[3]),
           score: item[4],
           date: item[5],
           categoryId: item[6],

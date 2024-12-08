@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import Link from "next/link";
+import UseFetchName from '../_components/hooks/UseFetchName';
 
 function Post() {
 
@@ -11,6 +12,7 @@ function Post() {
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [previewContent, setPreviewContent] = useState('');
+  const { id } = UseFetchName();
 
   // Markdownを処理する
   useEffect(() => {
@@ -31,7 +33,7 @@ function Post() {
       name: title,
       detail: content,
       tag: tags.split(" "),  // スペース区切りのタグを配列に変換
-      userid: 1 // ユーザーIDを指定（動的に設定する場合は適宜修正）
+      userid: id 
     };
   
     try {
@@ -59,7 +61,7 @@ function Post() {
       alert("エラーが発生しました。");
     }
   };
-  
+
   return (
     <div>
       <header className='border-b border-gray-300'>
