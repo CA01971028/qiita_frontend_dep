@@ -28,11 +28,16 @@ const FixPage = () => {
 
   // Markdownを処理する
   useEffect(() => {
-    if (content) {
-      const htmlContent = marked(content);
-      const sanitizedContent = DOMPurify.sanitize(htmlContent);
-      setPreviewContent(sanitizedContent);
-    }
+    const renderContent = async () => {
+      if (content) {
+        // markedが非同期ならawaitを使用
+        const htmlContent = await marked(content); 
+        const sanitizedContent = DOMPurify.sanitize(htmlContent);
+        setPreviewContent(sanitizedContent);
+      }
+    };
+
+    renderContent();
   }, [content]);
 
   // データの取得とフォームの初期化
