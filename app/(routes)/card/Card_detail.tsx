@@ -38,7 +38,7 @@ const Card_detail = () => {
   const [loading, setLoading] = useState<boolean>(true);//ローディングをするかどうか
   const [error, setError] = useState<string | null>(null);
   const [checkHeart, setCheckHeart] = useState<boolean>(false);//ハートが押されているかどうか
-  const {id} = UseFetchName();
+  const {id,name} = UseFetchName();
   const [comments, setComments] = useState<Comment[]>([ // コメントの型を指定
     {
       id: 1,
@@ -207,10 +207,10 @@ const Card_detail = () => {
     <div className="min-h-screen">
       <Header />
       <div className="flex flex-row">
-        <div onClick={heartClick} className={`text-6xl md:text-6xl md:transform md:translate-x-24 md:translate-y-14 ${checkHeart ? 'text-red-500 hover:text-red-800' : 'text-gray-500 hover:text-gray-300'} h-14 w-14`}>❤</div>
-        <div className="text-4xl mt-2 md:transform md:translate-x-24 md:translate-y-16 md:text-3xl">{cards?.score}</div>
+        {name &&(<div onClick={heartClick} className={`text-6xl md:text-6xl md:transform md:translate-x-24 md:translate-y-14 ${checkHeart ? 'text-red-500 hover:text-red-800' : 'text-gray-500 hover:text-gray-300'} h-14 w-14`}>❤</div>)}
+        {name && (<div className="text-4xl mt-2 md:transform md:translate-x-24 md:translate-y-16 md:text-3xl">{cards?.score}</div>)}
       </div>
-      <div className="flex flex-col items-center mt-[-30px] md:mt-[-70px]">
+      <div className={name ? "flex flex-col items-center mt-[-30px] md:mt-[-70px]":"flex flex-col items-center"}>
         {/* 記事カード */}
         <div className="max-w-4xl w-full items-center bg-white shadow-md rounded-lg overflow-hidden mt-8 border border-black/10 p-6">
           <div className="flex items-center mb-4">
