@@ -107,7 +107,7 @@ const Card_detail = () => {
     if (id && cardid) {
       const likeget = async () => {
         try {
-          const res = await fetch(`http://localhost:5000/like?userid=${id}&cardid=${cardid}`, {
+          const res = await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/like?userid=${id}&cardid=${cardid}`, {
             method: "GET",
           });
           if (!res.ok) {
@@ -168,7 +168,7 @@ const Card_detail = () => {
   const heartClick = async () => {
     try {
       if (checkHeart) {
-        await fetch(`http://localhost:5000/like`, {
+        await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/like`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -177,14 +177,14 @@ const Card_detail = () => {
         });
         setCheckHeart(false);
       } else {
-        await fetch(`http://localhost:5000/like?userid=${id}&cardid=${cardid}`, {
+        await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/like?userid=${id}&cardid=${cardid}`, {
           method: "DELETE",
         });
         setCheckHeart(true);
       }
   
       // 再度データを取得
-      const res = await fetch(`http://localhost:5000/card/detail?id=${cardid}`);
+      const res = await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/card/detail?id=${cardid}`);
       const updatedCard = await res.json();
       const updatedScore = updatedCard['heart'];
       setCards((prevCards) => (prevCards ? { ...prevCards, score: updatedScore } : prevCards));

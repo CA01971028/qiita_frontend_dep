@@ -44,7 +44,7 @@ const FixPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/Getcard?id=${id}`, {
+        const response = await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/Getcard?id=${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ const FixPage = () => {
     };
   
     try {
-      const res = await fetch('http://localhost:5000/Fixcard', {
+      const res = await fetch('https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/Fixcard', {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"

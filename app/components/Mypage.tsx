@@ -28,7 +28,7 @@ function Mypage() {
   useEffect(() => {
     const fetchCnt = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/mypage?id=${id}&name=${name}`, { // クエリパラメータとしてidとnameを付加
+        const response = await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/mypage?id=${id}&name=${name}`, { // クエリパラメータとしてidとnameを付加
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function Mypage() {
   }, [id, name]);
 
   useEffect(() => {
-    const path: string = 'http://localhost:5000/order/time';
+    const path: string = 'https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/order/time';
     const fetchData = async () => {
       try {
           const res = await fetch(path, {
