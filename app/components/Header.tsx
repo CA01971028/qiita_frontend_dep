@@ -84,10 +84,13 @@ const Header = () => {
               {isMenuOpen && (
                 <div className="absolute right-0 top-14 w-48 bg-gray-200 border border-black shadow-lg rounded-md p-4 opacity-95">
                   <ul className="flex flex-col gap-2">
-                    <li>
+                    <li className="hover:bg-gray-400">
                       <Link href="/mypage">マイページ</Link>
                     </li>
-                    <li>
+                    <li className="hover:bg-gray-400">
+                      <Link href="/bookmarks">ブックマーク</Link>
+                    </li>
+                    <li className="hover:bg-gray-400">
                       <button onClick={Logout} className="text-left w-full">ログアウト</button>
                     </li>
                   </ul>
