@@ -26,7 +26,6 @@ const HomePage = () => {
   const [time,setTime] = useState<CardData[]>([]);
   const [rank,setRank] = useState<[]>([]);
   const [book,setBook] = useState<BookMarks>();
-  const [bookCheck,setBookCheck] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -132,7 +131,7 @@ const HomePage = () => {
         }
         const data = await res.json();
         setBook(data)
-      }catch(err){
+      }catch{
         console.log("サーバーサイドでエラーが発生しています")
       }
     }
@@ -165,7 +164,7 @@ const HomePage = () => {
     setBook((prev) => {
       if (!prev) return prev;
   
-      const updatedData = prev.data.filter(([_, cardId]) => cardId !== card.id);
+      const updatedData = prev.data.filter(([cardId]) => cardId !== card.id);
       return { ...prev, data: updatedData };
     });
   };
@@ -271,7 +270,7 @@ const HomePage = () => {
                     <h2 className="text-xl mx-auto font-semibold mb-2 hover:underline">
                       {card.title}
                     </h2>
-                    {id && (book?.data && book.data.some(([_, cardid]) => cardid === card.id) ? (
+                    {id && (book?.data && book.data.some(([cardid]) => cardid === card.id) ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-7 ml-auto mr-2" onClick={(e) => bookClickDel(e, card)}>
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                     </svg>
@@ -316,7 +315,7 @@ const HomePage = () => {
                       <h2 className="text-xl font-semibold mb-2 hover:underline">
                         {card.title}
                       </h2>
-                      {book?.data && book.data.some(([_, id]) => id === card.id) ? (
+                      {book?.data && book.data.some(([id]) => id === card.id) ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-7 ml-auto mr-2" onClick={(e) => bookClickDel(e, card)}>
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                     </svg>
