@@ -26,6 +26,7 @@ const HomePage = () => {
   const [time,setTime] = useState<CardData[]>([]);
   const [rank,setRank] = useState<[]>([]);
   const [book,setBook] = useState<BookMarks>();
+  const [bookCheck,setBookCheck] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -55,7 +56,6 @@ const HomePage = () => {
         setCards(formattedData);
       } catch (err) {
         setError('err.message');
-        console.log(err)
       } finally {
         setLoading(false);
       }
@@ -75,30 +75,28 @@ const HomePage = () => {
           throw new Error('ネットワークの応答が正常ではありません');
         }
         const data = await res.json();
-
-        // データを整形
-        const formattedData:CardData[] = data.map((item:string[]) => ({
+  
+        const formattedData: CardData[] = data.map((item: string[]) => ({
           id: item[0],
           title: item[1],
           description: item[2],
-          tags: JSON.parse(item[3]), 
+          tags: JSON.parse(item[3]),
           score: item[4],
           date: item[5],
           categoryId: item[6],
-          user:item[7]
+          user: item[7],
         }));
-
+  
         setTime(formattedData);
       } catch (err) {
         setError('err.message');
-        console.log(err)
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, []);
+  }, [bookCheck]);
 
   useEffect(() =>{
     const path:string = 'https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/user_ranking';
@@ -114,7 +112,6 @@ const HomePage = () => {
         setRank(data)
       }catch(err){
         console.log("サーバーサイドでエラーが発生しています")
-        console.log(err)
       }
     }
     fetchData()
@@ -131,7 +128,7 @@ const HomePage = () => {
         }
         const data = await res.json();
         setBook(data)
-      }catch{
+      }catch(err){
         console.log("サーバーサイドでエラーが発生しています")
       }
     }
@@ -148,6 +145,7 @@ const HomePage = () => {
 
   const handleClick = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, card: CardData) => {
     e.preventDefault();
+    setBookCheck(prevState => !prevState);
     await postData(card);
     setBook((prev) => {
       const updatedData: [number, number, string][] = prev?.data 
@@ -159,16 +157,18 @@ const HomePage = () => {
   
   const bookClickDel = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, card: CardData) => {
     e.preventDefault();
+    setBookCheck(prevState => !prevState);
     await delData(card);
 
     setBook((prev) => {
       if (!prev) return prev;
   
-      const updatedData = prev.data.filter(([cardId]) => cardId !== card.id);
+      const updatedData = prev.data.filter(([_, cardId]) => cardId !== card.id);
       return { ...prev, data: updatedData };
     });
   };
-
+  
+  
   const delData = async (card: CardData) => {
     try {
       const res = await fetch(`https://qiita-api-dccbbecyhma3dnbe.japaneast-01.azurewebsites.net/book_del?userid=${id}&cardid=${card.id}`, {
@@ -206,7 +206,8 @@ const HomePage = () => {
       console.error("エラーが発生", error);
     }
   };
-
+  
+  
   // 左サイドバーのコンテンツ
   const LeftSidebar = () => {
     return (
@@ -224,7 +225,7 @@ const HomePage = () => {
               <FaJs className="mr-2 text-yellow-500" /> JavaScript
             </li>
           </Link>
-          <Link href="/">
+          <Link href="/tags/webdevelopment">
             <li className="flex items-center hover:underline">
               <FaGlobe className="mr-2 text-green-500" /> WebDev
             </li>
@@ -235,9 +236,7 @@ const HomePage = () => {
         <ul className="mt-2">
           {rank.map((data,index)=>(
             <li key={index} className="flex items-center hover:underline">
-            <FaUser className="mr-2 text-gray-500" /> {data["user"]}
-            {/* <p className="text-2xl inline-block px-28 w-full text-right">{data[1]}</p> */}
-
+            <FaUser className="mr-2 text-gray-500" /> {data[0]}
           </li>
           ))}
           
@@ -245,7 +244,6 @@ const HomePage = () => {
       </div>
     );
   };
-
   // メインコンテンツのコンポーネント
   const MainContent = () => {
     return (
@@ -270,7 +268,7 @@ const HomePage = () => {
                     <h2 className="text-xl mx-auto font-semibold mb-2 hover:underline">
                       {card.title}
                     </h2>
-                    {id && (book?.data && book.data.some(([cardid]) => cardid === card.id) ? (
+                    {id && (book?.data && book.data.some(([_, cardid]) => cardid === card.id) ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-7 ml-auto mr-2" onClick={(e) => bookClickDel(e, card)}>
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                     </svg>
@@ -282,15 +280,16 @@ const HomePage = () => {
                   </div>
                   <div className="flex flex-wrap space-x-2 mb-4">
                   {card.tags.map((tag,index) =>(
-                        <span key={index} className="bg-blue-200 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">
+                        <span key={index} className="bg-blue-200 text-blue-700 text-xs font-semibold px-2 py-1 mt-1 rounded-full">
                         {tag}
                       </span>
                       ))}
                   </div>
                   <div className="flex flex-row">
-                      <div className="h-1 mt-[-10px] text-2xl text-red-600">❤ </div>
-                      <div className="h-1 mt-[-10px] text-2xl ml-2">{card.score}</div>
-                    </div>
+                    <div className="h-1 mt-[-10px] text-2xl text-red-600">❤ </div>
+                    <div className="h-1 mt-[-10px] text-2xl ml-2">{card.score}</div>
+                  </div>
+                  
                 </div>
               </Link>
             ))}
@@ -315,7 +314,7 @@ const HomePage = () => {
                       <h2 className="text-xl font-semibold mb-2 hover:underline">
                         {card.title}
                       </h2>
-                      {book?.data && book.data.some(([id]) => id === card.id) ? (
+                      {book?.data && book.data.some(([_, id]) => id === card.id) ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-7 ml-auto mr-2" onClick={(e) => bookClickDel(e, card)}>
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                     </svg>
@@ -325,6 +324,7 @@ const HomePage = () => {
                     </svg>
                     )}
                     </div>
+                      
                     <div className="flex flex-wrap space-x-2 mb-4">
                       {card.tags.map((data,index)=>(
                         <span key={index} className="bg-blue-200 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">
