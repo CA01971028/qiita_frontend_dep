@@ -14,7 +14,7 @@ type CardData = [
   number,  // cardid
   string,  // name
   string,  // detail
-  string[], // tags
+  string, // tags
   number,  // heart
   string,  // date
   string   // user
