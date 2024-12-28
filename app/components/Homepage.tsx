@@ -128,7 +128,7 @@ const HomePage = () => {
         }
         const data = await res.json();
         setBook(data)
-      }catch(err){
+      }catch{
         console.log("サーバーサイドでエラーが発生しています")
       }
     }
