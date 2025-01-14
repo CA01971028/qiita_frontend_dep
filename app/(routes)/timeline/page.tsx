@@ -2,6 +2,8 @@
 import Card from "@/app/components/card";
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
+import { LeftSidebar } from "@/app/components/LeftSidebar";
+import { RightSidebar } from "@/app/components/RightSidebar";
 import React, { useEffect, useState } from "react";
 
 type CardData = {
@@ -71,12 +73,26 @@ export default function Timeline() {
   return (
     <>
       <Header />
-      <div className="flex flex-col md:flex-wrap md:flex-row">
-        {cards.map((card) => (
-          <div key={card.id} className="w-full md:w-1/2">
-            <Card {...card} />
+      <div className="flex flex-col sm:flex-row">
+        <LeftSidebar />
+        <div className="w-full sm:w-1/2 p-4 border-b sm:border-r sm:border-b-0 border-gray-300 order-1 sm:order-none">
+        <div className="mt-2">
+          {/* 親コンテナにflex-colを追加 */}
+          <div className="flex flex-col space-y-4">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="w-full rounded-md border shadow-md bg-white h-50"
+              >
+                <div className="flex items-center mb-4">
+                  <Card {...card} />
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        </div>
+        <RightSidebar/>
       </div>
       <Footer />
     </>
