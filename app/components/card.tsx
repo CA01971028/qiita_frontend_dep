@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { handleClick } from "../utils/handleclick";
 import Link from "next/link";
+import Image from "next/image"
 
 type CardData = {
   id: number;
@@ -22,11 +23,7 @@ export default function Card(props: CardData) {
     <div>
       {/* 画像部分 */}
       <div className="inline-block align-top p-2 pb-0  flex ">
-        <img
-          className="w-8 h-8 bg-gray-300/50 rounded-full"
-          src="共食いタコ.png"
-          alt="Avatar"
-        />
+              <Image src="/共食いタコ.png" width={50} height={50} alt="Avatar" className="object-cover rounded-full"/>
         <div>
           <div className="ml-4 text-gray-400">{props.user}</div>
           <p className="ml-4 text-gray-600 text-xs ">{props.date}</p>
