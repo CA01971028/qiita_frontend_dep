@@ -9,6 +9,7 @@ const Logout = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
+          window.location.reload();
         } else {
           console.error('Logout failed:', data.error);
         }

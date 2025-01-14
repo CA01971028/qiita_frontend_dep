@@ -73,7 +73,7 @@ const Header = () => {
           )}
 
           {!name && (
-            <a href="/login"><button className="bg-orange-500 text-white mx-2 px-3 py-2 rounded flex items-center gap-2 hidden lg:flex">
+            <a href="/login"><button className="bg-orange-500 text-white mx-2 px-3 py-2 rounded flex items-center gap-2">
               <FaPlus /> ログイン
             </button></a>
           )}
