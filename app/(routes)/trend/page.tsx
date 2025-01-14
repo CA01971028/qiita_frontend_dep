@@ -74,7 +74,7 @@ export default function Trend() {
         <div className="mt-2">
           {/* 親コンテナにflex-colを追加 */}
           <div className="flex flex-col space-y-4">
-            {cards.map((card, index) => (
+            {cards.map((card) => (
               <div
                 key={card.id}
                 className="w-full rounded-md border shadow-md bg-white h-50"
